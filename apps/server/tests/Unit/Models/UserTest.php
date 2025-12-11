@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -57,4 +58,16 @@ it('can generate api tokens', function () {
     $token = $user->createToken('Test Token');
 
     expect($token->plainTextToken)->toBeString();
+});
+
+it('can be assigned roles', function () {
+    $role = Role::factory()->create(['name' => 'admin']);
+    $user = User::factory()->create();
+
+    $user->assignRole('admin');
+
+    expect($user->hasRole('admin'))->toBeTrue()
+        ->and($user->hasRole($role))->toBeTrue()
+        ->and($user->hasRole($role->id))->toBeTrue()
+        ->and($user->hasRole('user'))->toBeFalse();
 });

@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Permissions;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::apiResources([
+        'permissions' => Permissions\PermissionController::class,
+    ], ['only' => ['index']]);
+});
