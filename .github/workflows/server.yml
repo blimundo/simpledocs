@@ -1,0 +1,54 @@
+name: Server Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/server/**'
+      - '.github/workflows/server.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/server/**'
+      - '.github/workflows/server.yml'
+  workflow_call:
+
+jobs:
+    tests:
+        name: Run Server Tests
+        runs-on: ubuntu-latest
+
+        defaults:
+          run:
+            working-directory: ./apps/server
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: mbstring, xml, json, sqlite, bcmath
+                  coverage: xdebug
+
+            - name: Install Composer dependencies
+              run: composer install --prefer-dist --no-progress
+
+            - name: Copy .env file
+              run: cp .env.example .env
+
+            - name: Generate application key
+              run: php artisan key:generate
+
+            - name: Run unit tests
+              run: composer test:unit
+
+            - name: Run static analysis
+              run: composer test:types
+
+            - name: Run code style check
+              run: composer test:lint
