@@ -19,7 +19,7 @@ final class PermissionController extends Controller
     public function index(Request $request, ListPermissionsAction $action)
     {
         $permissions = $action->handle(
-            search: $request->query('search', ''),
+            search: $request->query('search'),
         );
 
         return PermissionResource::collection($permissions);
