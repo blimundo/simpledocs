@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Enums\DiskDriverEnum;
-use App\Enums\Enums\DiskTypeEnum;
+use App\Enums\DiskDriverEnum;
+use App\Enums\DiskTypeEnum;
 use App\Models\DiskType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

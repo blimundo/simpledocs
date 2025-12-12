@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\Enums\DiskDriverEnum;
-use App\Enums\Enums\DiskTypeEnum;
+use App\Enums\DiskDriverEnum;
+use App\Enums\DiskTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
