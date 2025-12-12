@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\DiskDriverEnum;
 use App\Enums\DiskTypeEnum;
 use App\Models\DiskType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DiskTypeSeeder extends Seeder
+final class DiskTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

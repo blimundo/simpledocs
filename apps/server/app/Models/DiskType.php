@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\HasCode;
@@ -11,12 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read string $code
  * @property-read string $name
  * @property-read string $driver
- * @property-read array $fields
+ * @property-read array<string, mixed> $fields
  */
-class DiskType extends Model
+final class DiskType extends Model
 {
     /** @use HasFactory<\Database\Factories\DiskTypeFactory> */
-    use HasFactory, HasCode;
+    use HasCode, HasFactory;
 
     public $timestamps = false;
 

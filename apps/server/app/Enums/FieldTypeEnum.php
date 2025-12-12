@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 enum FieldTypeEnum: string
@@ -36,6 +38,22 @@ enum FieldTypeEnum: string
             self::BOOLEAN => false,
 
             default => true,
+        };
+    }
+
+    /**
+     * Get the appropriate form widget for this field type.
+     */
+    public function getFormWidget(): string
+    {
+        return match ($this) {
+            self::BOOLEAN => 'checkbox',
+            self::EMAIL => 'email',
+            self::INTEGER => 'number',
+            self::PASSWORD => 'password',
+            self::TEXT => 'textarea',
+            self::URL => 'url',
+            default => 'text',
         };
     }
 }
