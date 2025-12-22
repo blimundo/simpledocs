@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,5 +23,17 @@ final class RoleFactory extends Factory
             'name' => $this->faker->unique()->jobTitle(),
             'guard_name' => 'web',
         ];
+    }
+
+    /**
+     * Assign permissions to the role after creation.
+     *
+     * @param  string|array<string>  $permission
+     */
+    public function withPermission(string|array $permission): self
+    {
+        return $this->afterCreating(
+            fn (Role $role) => $role->givePermissionTo($permission)
+        );
     }
 }
