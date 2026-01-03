@@ -8,50 +8,80 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class)->group('unit', 'models', 'permission');
 
-it('can be converted to an array', function () {
-    $role = Role::factory()->create()->refresh();
+describe('attributes', function () {
+    it('has correct array keys and types', function () {
+        $role = Role::factory()->create()->refresh();
 
-    expect(array_keys($role->toArray()))
-        ->toBe([
-            'id',
-            'uuid',
-            'name',
-            'guard_name',
-            'created_at',
-            'updated_at',
-        ]);
+        expect($role->toArray())
+            ->toHaveKeys([
+                'id',
+                'uuid',
+                'name',
+                'guard_name',
+                'created_at',
+                'updated_at',
+            ])
+            ->not->toHaveKeys(['deleted_at']);
+
+        expect($role)
+            ->id->toBeInt()
+            ->uuid->toBeUuid()
+            ->name->toBeString()
+            ->guard_name->toBeString()
+            ->created_at->toBeInstanceOf(Carbon\CarbonImmutable::class)
+            ->updated_at->toBeInstanceOf(Carbon\CarbonImmutable::class);
+    });
 });
 
-it('can be retrieved by uuid', function () {
-    $role = Role::factory()->create();
+describe('uuid', function () {
 
-    $foundRole = Role::findByUuid($role->uuid);
+    it('generates uuid automatically on creation', function () {
+        $role = Role::factory()->create(['uuid' => null]);
 
-    expect($foundRole)->not->toBeNull()
-        ->and($foundRole->id)->toBe($role->id);
+        expect($role->uuid)->toBeUuid();
+    });
 
-    $notFoundRole = Role::findByUuid('non-existing-uuid');
+    it('can be retrieved by uuid', function () {
+        $role = Role::factory()->create();
 
-    expect($notFoundRole)->toBeNull();
+        $foundRole = Role::findByUuid($role->uuid);
+
+        expect($foundRole)->not->toBeNull()
+            ->and($foundRole->id)->toBe($role->id);
+
+        $notFoundRole = Role::findByUuid('non-existing-uuid');
+
+        expect($notFoundRole)->toBeNull();
+    });
 });
 
-it('can assign permissions', function () {
-    Permission::factory()->create(['name' => 'edit articles']);
-    $role = Role::factory()->create();
+describe('permissions', function () {
 
-    $role->givePermissionTo('edit articles');
+    beforeEach(function () {
+        Permission::factory(2)->sequence(
+            ['name' => 'edit articles'],
+            ['name' => 'delete articles']
+        )->create();
+    });
 
-    expect($role->hasPermissionTo('edit articles'))->toBeTrue();
-});
+    it('can assign permissions', function () {
+        $role = Role::factory()->create();
 
-it('can revoke permissions', function () {
-    Permission::factory()->create(['name' => 'edit articles']);
-    $role = Role::factory()->create();
-    $role->givePermissionTo('edit articles');
+        $role->givePermissionTo('edit articles');
 
-    expect($role->hasPermissionTo('edit articles'))->toBeTrue();
+        expect($role->hasPermissionTo('edit articles'))->toBeTrue()
+            ->and($role->hasPermissionTo('delete articles'))->toBeFalse();
+    });
 
-    $role->revokePermissionTo('edit articles');
+    it('can revoke permissions', function () {
+        $role = Role::factory()->withPermission('edit articles')->create();
 
-    expect($role->hasPermissionTo('edit articles'))->toBeFalse();
+        expect($role->hasPermissionTo('edit articles'))->toBeTrue()
+            ->and($role->hasPermissionTo('delete articles'))->toBeFalse();
+
+        $role->revokePermissionTo('edit articles');
+
+        expect($role->hasPermissionTo('edit articles'))->toBeFalse()
+            ->and($role->hasPermissionTo('delete articles'))->toBeFalse();
+    });
 });

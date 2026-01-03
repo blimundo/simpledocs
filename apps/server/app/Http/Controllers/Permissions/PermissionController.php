@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Permissions;
 
-use App\Actions\Permissions\ListPermissionsAction;
+use App\Actions\Permissions\Permissions\ListPermissionsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Permissions\PermissionResource;
 use Illuminate\Http\Request;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Permissions;
+namespace App\Actions\Permissions\Permissions;
 
 use App\Models\Permission;
 

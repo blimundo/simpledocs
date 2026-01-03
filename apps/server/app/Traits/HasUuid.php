@@ -17,6 +17,17 @@ trait HasUuid
     }
 
     /**
+     * Get the route key name for the model.
+     *
+     * This method overrides the default route key name to use the 'uuid' field
+     * instead of the default primary key.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
      * Boot the trait and assign a UUID to the model upon creation.
      */
     protected static function bootHasUuid(): void
