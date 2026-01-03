@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 uses(RefreshDatabase::class)->group('feature', 'http', 'controllers', 'permissions', 'roles');
 
 beforeEach(function () {
-    $permisisons = Permission::factory()->createMany([
+    $permissions = Permission::factory()->createMany([
         ['name' => PermissionsEnum::ROLES_LIST],
         ['name' => PermissionsEnum::ROLES_CREATE],
         ['name' => PermissionsEnum::ROLES_VIEW],
@@ -20,7 +20,7 @@ beforeEach(function () {
         ['name' => PermissionsEnum::ROLES_DELETE],
     ]);
 
-    $this->user = User::factory()->withPermission($permisisons)->create();
+    $this->user = User::factory()->withPermission($permissions)->create();
 });
 
 describe('list', function () {

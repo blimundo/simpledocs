@@ -17,7 +17,7 @@ describe('instantiation', function () {
         );
 
         expect($data)->toBeInstanceOf(SearchRolesData::class)
-            ->search->toBeString('Admin')
+            ->search->toBeString('admin')
             ->page->toBeInt(1)
             ->perPage->toBeInt(10)
             ->sortBy->toBeString('name')

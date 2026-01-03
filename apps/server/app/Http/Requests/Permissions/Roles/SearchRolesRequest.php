@@ -26,6 +26,10 @@ final class SearchRolesRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string', 'max:100'],
+            'page' => ['nullable', 'integer', 'min:1'],
+            'perPage' => ['nullable', 'integer', 'min:1'],
+            'sortBy' => ['nullable', 'string', 'in:name,createdAt,updatedAt'],
+            'sortOrder' => ['nullable', 'string', 'in:asc,desc'],
         ];
     }
 }

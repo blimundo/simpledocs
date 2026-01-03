@@ -11,7 +11,7 @@ final class UpdateRoleAction
 {
     public function handle(Role $role, UpdateRoleData $data): Role
     {
-        $role->update(['name' => $data->name]);
+        $role->update(['name' => $data->name ?? $role->name]);
 
         if ($data->permissions !== null) {
             $role->syncPermissions($data->permissions);
