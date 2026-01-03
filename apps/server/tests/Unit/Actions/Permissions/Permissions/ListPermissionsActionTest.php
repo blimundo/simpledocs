@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Permissions\ListPermissionsAction;
+use App\Actions\Permissions\Permissions\ListPermissionsAction;
 use App\Enums\PermissionsEnum;
 use App\Models\Permission;
 use Illuminate\Foundation\Testing\RefreshDatabase;

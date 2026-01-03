@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\PermissionsEnum;
+use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -42,5 +46,17 @@ final class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Assign permissions to the user after creation.
+     *
+     * @param  string|Permission|PermissionsEnum|array<Permission|string|PermissionsEnum>|Collection<int, Permission>  $permission
+     */
+    public function withPermission(string|Permission|PermissionsEnum|array|Collection $permission): self
+    {
+        return $this->afterCreating(
+            fn (User $user) => $user->givePermissionTo($permission)
+        );
     }
 }
