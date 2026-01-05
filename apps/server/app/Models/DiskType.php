@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read string $name
  * @property-read string $driver
  * @property-read array<string, mixed> $fields
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Disk> $disks
  */
 final class DiskType extends Model
 {
@@ -26,6 +27,11 @@ final class DiskType extends Model
      * Disable timestamps for this model.
      */
     public $timestamps = false;
+
+    /**
+     * The relationships that should always be counted.
+     */
+    protected $withCount = ['disks'];
 
     /**
      * Get validation rules for the disk type fields.
@@ -57,6 +63,21 @@ final class DiskType extends Model
     public function disks(): HasMany
     {
         return $this->hasMany(Disk::class, 'disk_type_id');
+    }
+
+    /**
+     * Resolve the route binding for the model.
+     *
+     * This method overrides the default behavior to perform a case-insensitive
+     * lookup based on the 'code' field.
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function resolveRouteBinding($value, $field = null): Model
+    {
+        $field = $field ?? $this->getRouteKeyName();
+
+        return $this->whereLikeInsensitive($field, $value)->firstOrFail();
     }
 
     /**
