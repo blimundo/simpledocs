@@ -44,7 +44,7 @@ function testFormRequestValidations(
                 // other requests, they are sent as JSON body, but we still need
                 // to send model binding parameters (like resource IDs) as part of the route.
                 $response = $method === 'GET'
-                    ? actingAs($user)->getJson(route($route, [...$routeParameters, ...$parameters]))
+                    ? actingAs($user)->json('GET', route($route, [...$routeParameters, ...$parameters]))
                     : actingAs($user)->json($method, route($route, $routeParameters), $parameters);
 
                 $expectedError

@@ -18,13 +18,15 @@
 
 ## Disks/Disks
 
-- Add action to validate disk config (should stablish connection)
+- Add action to validate disk config (should establish connection)
 
 - Validate that disk config is valid before create or update disk
 
 - Validate `config` array content in `StoreDiskRequest`
 
 - Validate `config` array content in `UpdateDiskRequest`
+
+- Remove/hide sensitive data from JSON returned by `DiskResource`
 
 ## Others
 

@@ -63,7 +63,7 @@ describe('GET /disks', function () {
             ->and($response->headers->get('content-type'))->toContain('application/json');
     });
 
-    it('returns all disk in correct format', function () {
+    it('returns all disks in correct format', function () {
         $response = actingAs(test()->user)
             ->getJson(route('disks.index'));
 
@@ -88,7 +88,7 @@ describe('GET /disks', function () {
             ->not->toHaveKey('config');
     });
 
-    it('sorts disk by name in ascending order', function () {
+    it('sorts disks by name in ascending order', function () {
         $response = actingAs(test()->user)
             ->getJson(route('disks.index'));
 
@@ -97,7 +97,7 @@ describe('GET /disks', function () {
         expect($disks)->toBe(['Documents', 'Games', 'Musics']);
     });
 
-    it('search disks by name', function () {
+    it('searches disks by name', function () {
         $response = actingAs(test()->user)
             ->getJson(route('disks.index', ['name' => 'Games']));
 
@@ -107,7 +107,7 @@ describe('GET /disks', function () {
             ->and($response->json('data.0.name'))->toBe('Games');
     });
 
-    it('search disks by type', function () {
+    it('searches disks by type', function () {
         $response = actingAs(test()->user)
             ->getJson(route('disks.index', ['type' => 'local']));
 
@@ -117,7 +117,7 @@ describe('GET /disks', function () {
             ->and($response->json('data.0.name'))->toBe('Documents');
     });
 
-    it('returns empty array when no disk exist', function () {
+    it('returns empty array when no disks exists', function () {
         $response = actingAs(test()->user)
             ->getJson(route('disks.index', ['name' => 'nonexistent']));
 

@@ -47,6 +47,8 @@ final class DiskController extends Controller
             CreateDiskData::from($request->validated())
         );
 
+        $disk->load('type');
+
         return new DiskResource($disk);
     }
 
@@ -58,6 +60,8 @@ final class DiskController extends Controller
     public function show(Disk $disk)
     {
         Gate::authorize('view', $disk);
+
+        $disk->load('type');
 
         return new DiskResource($disk);
     }
@@ -71,7 +75,7 @@ final class DiskController extends Controller
     {
         $disk = $action->handle(
             $disk,
-            UpdateDiskData::from($request->all())
+            UpdateDiskData::from($request->validated())
         );
 
         return new DiskResource($disk);

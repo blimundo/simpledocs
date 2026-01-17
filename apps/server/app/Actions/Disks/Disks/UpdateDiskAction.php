@@ -11,12 +11,7 @@ final class UpdateDiskAction
 {
     public function handle(Disk $disk, UpdateDiskData $data): Disk
     {
-        $disk->update([
-            'name' => $data->name ?? $disk->name,
-            'config' => $data->config ?? $disk->config,
-            'used' => $data->used ?? $disk->used,
-            'size' => $data->size ?? $disk->size,
-        ]);
+        $disk->update(array_filter($data->toArray()));
 
         return $disk;
     }
